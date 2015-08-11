@@ -233,15 +233,21 @@ namespace murrayju.ProcessExtensions
                     throw new Exception("StartProcessAsCurrentUser: CreateEnvironmentBlock failed.");
                 }
 
+                string pathAndArguments = "\"" + appPath + "\"";
+                if ((cmdLine != null) && (cmdLine.Length != 0))
+                {
+                    pathAndArguments += " " + cmdLine;
+                }
+
                 if (!CreateProcessAsUser(hUserToken,
-                    appPath, // Application Name
-                    cmdLine, // Command Line
+                    null,
+                    pathAndArguments,
                     IntPtr.Zero,
                     IntPtr.Zero,
                     false,
                     dwCreationFlags,
                     pEnv,
-                    workDir, // Working directory
+                    workDir,
                     ref startInfo,
                     out procInfo))
                 {
